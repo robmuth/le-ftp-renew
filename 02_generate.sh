@@ -68,3 +68,7 @@ else
 	echo "Aborting..."
 	exit
 fi
+
+# Run unmount hook
+$DIR/hook-unmount.sh
+

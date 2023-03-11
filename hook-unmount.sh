@@ -10,11 +10,14 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-# Check if remote file exists $FTP_MOUNT_DIR/$CERTBOT_TOKEN
-if [ ! -f "$FTP_MOUNT_DIR/$CERTBOT_TOKEN" ]
-  then echo "Error: Remote file $FTP_MOUNT_DIR/$CERTBOT_TOKEN does not exist."
+# Unmount FTP_MOUNT_DIR
+fusermount -u $FTP_MOUNT_DIR
+
+# check if FTP_MOUNT_DIR directory is empty
+if [ "$(ls -A $FTP_MOUNT_DIR)" ]
+  then echo "Error: $FTP_MOUNT_DIR is not empty."
   exit
 fi
 
-# Remove remote file
-rm $FTP_MOUNT_DIR/$CERTBOT_TOKEN
+# remove FTP_MOUNT_DIR directory
+rmdir $FTP_MOUNT_DIR

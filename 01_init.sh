@@ -24,7 +24,7 @@ fi
 
 # check if script files have execute rights (chmod +x), if not give so
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-SCRIPTS=("02_generate.sh" "hook-auth.sh" "hook-cleanup.sh")
+SCRIPTS=("02_generate.sh" "hook-auth.sh" "hook-cleanup.sh" "hook-unmount.sh")
 for i in "${SCRIPTS[@]}"
 do
   if [ ! -x "$DIR/$i" ]
