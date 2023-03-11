@@ -36,26 +36,21 @@ do
 done
 
 # check if FTP_MOUNT_DIR already exists
-if [ -d "$FTP_MOUNT_DIR" ]
+if [ ! -d "$FTP_MOUNT_DIR" ]
   then
-  	# check if FTP_MOUNT_DIR is not empty
-  	if [ "$(ls -A $FTP_MOUNT_DIR)" ]
-  	  then echo "Error: $FTP_MOUNT_DIR already exists. Delete it first."
-  	  exit
-  	fi
-
-  	# check if anything is mounted to FTP_MOUNT_DIR
-  	if [ "$(mount | grep $FTP_MOUNT_DIR)" ]
-  	  then echo "Error: $FTP_MOUNT_DIR is already mounted. Unmount it first."
-  	  exit
-  	fi
+  	# make FTP_MOUNT_DIR
+	mkdir $FTP_MOUNT_DIR
 fi
 
-# make FTP_MOUNT_DIR
-mkdir $FTP_MOUNT_DIR
+# mount FTP_MOUNT_DIR if not already mounted
+if [ ! "$(mount | grep $FTP_MOUNT_DIR)" ]
+  then
+  	echo "user: $FTPUSER"
+  	echo "server: $FTPSERVER"
 
-# mount FTP server to FTP_MOUNT_DIR
-curlftpfs ftp://$FTPUSER:$FTPPWD@$FTPSERVER:$FTPPORT$FTPPATH $FTP_MOUNT_DIR
+	curlftpfs ftp://$FTPUSER:$FTPPWD@$FTPSERVER:$FTPPORT$FTPPATH $FTP_MOUNT_DIR
+fi
+
 
 # Write acme challange into remote file
 echo $CERTBOT_VALIDATION > $FTP_MOUNT_DIR/$CERTBOT_TOKEN
