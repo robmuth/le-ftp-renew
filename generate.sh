@@ -10,7 +10,7 @@ fi
 
 # Check if sudo rights
 if [ "$EUID" -ne 0 ]
-  then echo "Please run script as root (sudo ./02_generate.sh example.config) for mounting remote FTP server."
+  then echo "Please run script as root (sudo ./02_generate.sh example.config) for mounting the remote FTP server."
   exit
 fi
 
