@@ -8,12 +8,13 @@ if [ "$1" != "install" ]
   exit
 fi
 
-# check if CurlFtpFS is already installed
-if [ -f /usr/bin/curlftpfs ]
-  then echo "You are all set. CurlFtpFS is already installed."
+# check if CurlFtpFS is already installed, install if not
+if [ ! -f /usr/bin/curlftpfs ]
+  then 
+  	sudo apt-get install curlftpfs
+  	modprobe fuse
   exit
 fi
-
 
 # check if root rights
 if [ "$EUID" -ne 0 ]
@@ -21,5 +22,12 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-sudo apt-get install curlftpfs
-modprobe fuse
+# check if script files have execute rights (chmod +x), if not give so
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+SCRIPTS=("02_generate.sh" "hook-auth.sh" "hook-cleanup.sh")
+for i in "${SCRIPTS[@]}"
+do
+  if [ ! -x "$DIR/$i" ]
+	then chmod +x "$DIR/$i"
+  fi
+done
