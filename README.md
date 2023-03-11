@@ -1,6 +1,7 @@
 # Let's Encrypt Certificate Renew via FTP
 
-This script calls the Let's Encrypt [certbot](https://certbot.eff.org) to generate a new LE certificate and automatically uploads the challenges to a remote server via FTP.
+This bash script calls the Let's Encrypt [certbot](https://certbot.eff.org) to generate a new certificate (with private key) and automatically uploads the ACME challenges to a remote server via FTP.
+This is especially useful if you have a web hoster that does not support Let's Encrypt.
 The certificate and private key are copied to ```./certificates/``` so you can manually upload them to your web hoster.
 
 ## Installation dependencies:
@@ -16,7 +17,7 @@ modprobe fuse
 Make a configuration file with the domains (comma separated) and their FTP credentials. Example:
 
 ```
-DOMAINS=example.com,example.de
+DOMAINS=example.com,www.example.com
 FTPSERVER=ftp.example.com
 FTPPORT=21
 FTPPATH=/ # Path directly to the final acme-challenge dir (always end with /)
@@ -26,10 +27,35 @@ FTPPWD=password
 
 The path must be the path to the final acme-challenge directory. For example ```/var/www/htdocs/.well-known/acme-challenge/```
 
-## Generate New Certificate
+## Generate new certificate
 1. Run ```./generate.sh example.config --dry-run``` to generate the first certificate (without uploading to the server).
 2. If everything is fine, run ```./generate.sh example.config``` to generate the certificate and upload it to the server.
-3. Certificates and private keys are then stored in ```./certificates/```
+3. Certificate and private key are then stored copied into ```./certificates/``` (with user rights).
+
+### Example output
+
+```
+sudo ./generate.sh example.config
+Do you want to run the following command (y/N)?
+
+certbot certonly --manual --preferred-challenges http --agree-tos --manual-public-ip-logging-ok -m webmaster@example.com --manual-auth-hook /home/user/git/le-ftp-renew/hook-auth.sh --manual-cleanup-hook /home/user/git/le-ftp-renew/hook-cleanup.sh --deploy-hook /home/user/git/le-ftp-renew/hook-deploy.sh -d example.com,www.example.comy
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Requesting a certificate for example.com and www.example.com
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/example.com/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/example.com/privkey.pem
+This certificate expires on 2023-06-09.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+```
 
 ## Files
 - **generate.sh**: Main script

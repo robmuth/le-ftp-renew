@@ -40,7 +40,3 @@ cp "$PRIV" "$OUT/$DOMAIN-privkey.pem"
 
 # change owner of all files to $SUDO_USER recursively
 chown -R $SUDO_USER:$SUDO_USER $OUT
-
-# echo new file paths
-echo "New certificate: $OUT/$DOMAIN-certificate.pem"
-echo "New private key: $OUT/$DOMAIN-privkey.pem"
