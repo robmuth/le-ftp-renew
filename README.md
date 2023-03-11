@@ -1,6 +1,6 @@
-# LE FTP Renew
+# Let's Encrypt Certificate Renew via FTP
 
-This script calls certbot to generate a new LE certificate and automatically uploads the challenges via FTP.
+This script calls the Let's Encrypt [certbot](https://certbot.eff.org) to generate a new LE certificate and automatically uploads the challenges to a remote server via FTP.
 The certificate and private key are copied to ```./certificates/``` so you can manually upload them to your web hoster.
 
 ## Installation dependencies:

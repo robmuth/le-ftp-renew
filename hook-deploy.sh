@@ -24,7 +24,7 @@ CERT="$RENEWED_LINEAGE/fullchain.pem"
 PRIV=="$RENEWED_LINEAGE/privkey.pem"
 
 # get name of last directory of $CERT
-DOMAIN="$(dirname $CERT)"
+DOMAIN="$(dirname $CERT | xargs basename)"
 
 # move files to certificates
 OUT="$DIR/certificates/"
