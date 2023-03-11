@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# check if one parameter is given
-if [ -z "$1" ]
-  then echo "Error: Missing config file as first parameter."
-  exit
-fi
+# # check if one parameter is given
+# if [ -z "$1" ]
+#   then echo "Error: Missing config file as first parameter."
+#   exit
+# fi
 
-# load config file from first parameter
-source $1
+# # load config file from first parameter
+# source $1
 
 # get directory of script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -35,10 +35,20 @@ do
   fi
 done
 
-# check if FTP_MOUNT_DIR already exists, abort if so
+# check if FTP_MOUNT_DIR already exists
 if [ -d "$FTP_MOUNT_DIR" ]
-  then echo "Error: $FTP_MOUNT_DIR already exists. Delete it first."
-  exit
+  then
+  	# check if FTP_MOUNT_DIR is not empty
+  	if [ "$(ls -A $FTP_MOUNT_DIR)" ]
+  	  then echo "Error: $FTP_MOUNT_DIR already exists. Delete it first."
+  	  exit
+  	fi
+
+  	# check if anything is mounted to FTP_MOUNT_DIR
+  	if [ "$(mount | grep $FTP_MOUNT_DIR)" ]
+  	  then echo "Error: $FTP_MOUNT_DIR is already mounted. Unmount it first."
+  	  exit
+  	fi
 fi
 
 # make FTP_MOUNT_DIR
