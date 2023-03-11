@@ -45,7 +45,7 @@ fi
 
 # certbot command
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-CERTBOT="certbot certonly --manual --preferred-challenges http --agree-tos --manual-public-ip-logging-ok -m $EMAIL --manual-auth-hook $DIR/hook-auth.sh --manual-cleanup-hook $DIR/hook-cleanup.sh -d $DOMAINS"
+CERTBOT="certbot certonly --manual --preferred-challenges http --agree-tos --manual-public-ip-logging-ok -m $EMAIL --manual-auth-hook $DIR/hook-auth.sh --manual-cleanup-hook $DIR/hook-cleanup.sh --deploy-hook $DIR/hook-deploy.sh -d $DOMAINS"
 
 # check if --dry-run
 if [ "$2" == "--dry-run" ]
