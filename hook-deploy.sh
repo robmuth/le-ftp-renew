@@ -21,7 +21,7 @@ fi
 
 # path to certificate
 CERT="$RENEWED_LINEAGE/fullchain.pem"
-PRIV=="$RENEWED_LINEAGE/privkey.pem"
+PRIV="$RENEWED_LINEAGE/privkey.pem"
 
 # get name of last directory of $CERT
 DOMAIN="$(dirname $CERT | xargs basename)"
@@ -35,11 +35,11 @@ if [ ! -d "$OUT" ]
     mkdir $OUT
 fi
 
-mv "$CERT" "$OUT/$DOMAIN-certificate.pem"
-mv "$PRIV" "$OUT/$DOMAIN-privkey.pem"
+cp "$CERT" "$OUT/$DOMAIN-certificate.pem"
+cp "$PRIV" "$OUT/$DOMAIN-privkey.pem"
 
 # change owner of all files to $SUDO_USER recursively
-chown -R $SUDO_USER $OUT
+chown -R $SUDO_USER:$SUDO_USER $OUT
 
 # echo new file paths
 echo "New certificate: $OUT/$DOMAIN-certificate.pem"
