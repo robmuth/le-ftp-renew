@@ -10,16 +10,16 @@ fi
 
 # check if CurlFtpFS is already installed
 if [ -f /usr/bin/curlftpfs ]
-  then echo "CurlFtpFS is already installed"
+  then echo "You are all set. CurlFtpFS is already installed."
   exit
 fi
 
 
 # check if root rights
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
+  then echo "Please run as root."
   exit
 fi
 
-sudo apt-get install CurlFtpFS
+sudo apt-get install curlftpfs
 modprobe fuse

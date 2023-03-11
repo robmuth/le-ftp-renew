@@ -17,6 +17,12 @@ fi
 # array with two strings "abc" "def"
 CONFIGS=("DOMAINS" "EMAIL" "FTPSERVER" "FTPPORT" "FTPPATH" "FTPUSER" "FTPPWD")
 
+# Check if given config file exists
+if [ ! -f $1 ]
+  then echo "Config file $1 does not exist."
+  exit
+fi
+
 # Read config file
 source $1
 
@@ -36,7 +42,8 @@ if [ "${FTPPATH: -1}" != "/" ]
 fi
 
 # certbot command
-CERTBOT="certbot certonly --manual --preferred-challenges http --agree-tos --manual-public-ip-logging-ok -m '$EMAIL' --manual-auth-hook /usr/local/bin/hook-auth.sh --manual-cleanup-hook /usr/local/bin/hook-cleanup.sh -d '$DOMAINS'"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+CERTBOT="certbot certonly --manual --preferred-challenges http --agree-tos --manual-public-ip-logging-ok -m '$EMAIL' --manual-auth-hook $DIR/hook-auth.sh --manual-cleanup-hook $DIR/hook-cleanup.sh -d '$DOMAINS'"
 
 # check if --dry-run
 if [ "$2" == "--dry-run" ]
