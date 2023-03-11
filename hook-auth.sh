@@ -45,9 +45,6 @@ fi
 # mount FTP_MOUNT_DIR if not already mounted
 if [ ! "$(mount | grep $FTP_MOUNT_DIR)" ]
   then
-  	echo "user: $FTPUSER"
-  	echo "server: $FTPSERVER"
-
 	curlftpfs ftp://$FTPUSER:$FTPPWD@$FTPSERVER:$FTPPORT$FTPPATH $FTP_MOUNT_DIR
 fi
 

@@ -10,8 +10,10 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-# Unmount FTP_MOUNT_DIR
-fusermount -u $FTP_MOUNT_DIR
+# Check if FTP_MOUNT_DIR is mounted and unmount it
+if [ "$(mount | grep $FTP_MOUNT_DIR)" ]
+  then fusermount -u $FTP_MOUNT_DIR
+fi
 
 # check if FTP_MOUNT_DIR directory is empty
 if [ "$(ls -A $FTP_MOUNT_DIR)" ]

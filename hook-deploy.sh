@@ -38,8 +38,8 @@ fi
 mv "$CERT" "$OUT/$DOMAIN-certificate.pem"
 mv "$PRIV" "$OUT/$DOMAIN-privkey.pem"
 
-# give write and read access to all users recursively
-chmod -R 777 $OUT
+# change owner of all files to $SUDO_USER recursively
+chown -R $SUDO_USER $OUT
 
 # echo new file paths
 echo "New certificate: $OUT/$DOMAIN-certificate.pem"
