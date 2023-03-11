@@ -32,6 +32,8 @@ do
   if [ -z "${!i}" ]
 	then echo "Please set $i in config file."
 	exit
+  else
+  	export $i
   fi
 done
 
@@ -59,6 +61,9 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
 	$CERTBOT
+
+	# unset FTPPWD
+	unset FTPPWD
 else
 	echo "Aborting..."
 	exit
